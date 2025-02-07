@@ -1,7 +1,7 @@
 // _worker.js
 
 // Docker镜像仓库主机地址
-let hub_host = 'docker-1.1yidc.com';
+let hub_host = 'registry-1.docker.io';
 // Docker认证服务器地址
 const auth_url = 'https://auth.docker.io';
 
@@ -21,7 +21,7 @@ function routeByHosts(host) {
 		"nvcr": "nvcr.io",
 
 		// 测试环境
-		"test": "docker-1.1yidc.com",
+		"test": "registry-1.docker.io",
 	};
 
 	if (host in routes) return [routes[host], false];
@@ -357,7 +357,7 @@ export default {
 		// 如果存在 ns 参数，优先使用它来确定 hub_host
 		if (ns) {
 			if (ns === 'docker.io') {
-				hub_host = 'docker-1.1yidc.com'; // 设置上游地址为 docker-1.1yidc.com
+				hub_host = 'registry-1.docker.io'; // 设置上游地址为 registry-1.docker.io
 			} else {
 				hub_host = ns; // 直接使用 ns 作为 hub_host
 			}
@@ -434,7 +434,7 @@ export default {
 		}
 
 		// 修改 /v2/ 请求路径
-		if (hub_host == 'docker-1.1yidc.com' && /^\/v2\/[^/]+\/[^/]+\/[^/]+$/.test(url.pathname) && !/^\/v2\/library/.test(url.pathname)) {
+		if (hub_host == 'registry-1.docker.io' && /^\/v2\/[^/]+\/[^/]+\/[^/]+$/.test(url.pathname) && !/^\/v2\/library/.test(url.pathname)) {
 			//url.pathname = url.pathname.replace(/\/v2\//, '/v2/library/');
 			url.pathname = '/v2/library/' + url.pathname.split('/v2/')[1];
 			console.log(`modified_url: ${url.pathname}`);
